@@ -18,17 +18,30 @@ function App() {
     },
   ];
   let [productList, setProductList] = useState(products);
+  let[totalAmount , setTotalAmount] = useState(0);
   // this is hook created
 
   const incrementQuantity = (index) => {
     let newProductList = [...productList];
+    let newTotalAmount = totalAmount;
+    newTotalAmount += newProductList[index].price
     newProductList[index].quantity++;
+    setTotalAmount(newTotalAmount)
     setProductList(newProductList);
   }
 
   const decrementQuantity = (index) => {
     let newProductList = [...productList];
-    newProductList[index].quantity > 0? newProductList[index].quantity-- : newProductList[index].quantity=0;
+    let newTotalAmount = totalAmount;
+    if(newProductList[index].quantity > 0)
+    {
+      newProductList[index].quantity-- ;
+      newTotalAmount -= newProductList[index].price
+
+    }
+
+    
+    setTotalAmount(newTotalAmount)
     setProductList(newProductList);
   }
   return (
@@ -39,7 +52,7 @@ function App() {
           productList={productList}
           incrementQuantity={incrementQuantity} decrementQuantity={decrementQuantity}
         />
-        <Footer/>
+        <Footer totalAmount={totalAmount} />
       </main>
     </>
   );
